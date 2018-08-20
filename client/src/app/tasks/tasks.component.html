@@ -1,0 +1,104 @@
+<ng-progress [color]="'blue'"></ng-progress>
+<div class="form-row">
+  <div class="col-md-6">
+    <!-- Material form login -->
+<div class="card">
+
+  <h5 class="card-header info-color white-text text-center py-4">
+    <strong>Add Task</strong>
+  </h5>
+
+  <!--Card content-->
+  <div class="card-body px-lg-5 pt-0">
+
+    <!-- Form -->
+    <form class="text-center" style="color: #757575;" #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <input type="hidden" [ngModel]="_id" name="_id">
+      <!-- Task -->
+      <div class="md-form">
+        <input mdbInputDirective type="text" id="form1" [(ngModel)]="title"  name="title" class="form-control" required>
+        <label for="form1" class="">Task</label>
+      </div>
+
+      <!-- Default checked -->
+      
+
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" (change)="isDone=!isDone" class="custom-control-input" id="defaultChecked2"  [checked]="isDone">
+        <label class="custom-control-label" for="defaultChecked2" style="margin-left: -380px">Done</label>
+      </div>
+
+      <!-- Sign in button -->
+      <div class="form-row" style="float: right">
+        <button *ngIf="_id" [disabled]="!form.valid" class="btn btn-primary" type="submit">Update Task</button>
+        <button *ngIf="!_id" [disabled]="!form.valid" class="btn btn-primary" type="submit">Add Task</button>
+      </div>
+
+    </form>
+    <!-- Form -->
+
+  </div>
+
+</div>
+<!-- Material form login -->
+</div>
+
+
+  <div class="col-md-6">
+    <h3 style="margin-left: 46px;">Task List</h3>
+    <div class="form-row" *ngFor = "let task of tasks">
+      <div class="col-md-1"></div>
+      <div class="col-md-2">
+          <div class="form-check">
+              <input style="margin-top: 22px;" class="form-check-input" type="checkbox" (change)="onCheckBoxChange(task)" name="exampleRadios" [checked]="task.isDone">         
+            </div>
+      </div>
+      <div class="col-md-7">
+        <a (click)="editTask(task)"><p style="margin-top: 15px;">{{task.title}}</p></a>
+        <!-- <p style="margin-top: 15px;">{{task.title}}</p> -->
+      </div>
+      <div class="col-md-2">
+          <button type="button" mdbBtn color="default" color="danger" rounded="true" data-toggle="modal" data-target="#basicExample" (click)="frame.show(); getDeleteTask(task)"
+          mdbWavesEffect>Delete</button>
+          <!-- <button mdbBtn type="button" (click)="deleteTask(task)" color="danger" class="waves-light" mdbWavesEffect>Delete</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div mdbModal #frame="mdbModal" class="modal fade top" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">Delete Task</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="fa fa-check fa-4x mb-3 animated rotateIn"></i>
+          <p>Are Sure you Want to Delete this Task ?</p>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer justify-content-center">
+        <a type="button" (click)="deleteTask(); frame.hide()" mdbBtn color="danger" class="waves-effect" mdbWavesEffect>Yes
+          <!-- <i class="fa fa-diamond ml-1"></i> -->
+        </a>
+        <a type="button" mdbBtn color="danger" outline="true" class="waves-effect" mdbWavesEffect (click)="frame.hide()">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
